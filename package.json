@@ -1,0 +1,21 @@
+{
+  "name": "telegram-bot-stickers-backend",
+  "version": "0.1.0",
+  "description": "Backend for the stickers bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src/*.js"
+  },
+  "author": "Deryck Jackson",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "request": "^2.88.2",
+    "sharp": "^0.28.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.23.0"
+  }
+}
