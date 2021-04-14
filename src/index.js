@@ -3,13 +3,15 @@ const express = require('express')
 const cors = require('cors')
 const axios = require('axios')
 const multer = require('multer')
+const resize = require('./image-resize.js')
+const fs = require('fs')
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, './uploads')
+    cb(null, './temp')
   },
   filename: (req, file, cb) => {
-    cb(null, 'temp.png')
+    cb(null, 'tempPhoto')
   }
 })
 
@@ -34,6 +36,7 @@ app.get('/', async (req, res) => {
 
 app.post('/', upload.single('photo'), (req, res) => {
   res.status(202).send('Accepted')
+  resize.resize(Buffer.from(fs.readFileSync('./temp/tempPhoto')))
 })
 
 app.listen(port, () => {

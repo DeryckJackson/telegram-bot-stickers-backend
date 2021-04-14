@@ -12,7 +12,7 @@
     "jest": true
   },
   "rules": {
-    "semi": 1,
+    "semi": 0,
     "indent": [
       "warn",
       2
