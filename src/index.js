@@ -1,19 +1,13 @@
 require('dotenv').config()
+
 const express = require('express')
 const cors = require('cors')
-const axios = require('axios')
 const multer = require('multer')
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './uploads')
-  },
-  filename: (req, file, cb) => {
-    cb(null, 'temp.png')
-  }
-})
+const axios = require('axios')
+const resize = require('./image-resize.js')
 
-const upload = multer({ storage: storage })
+const upload = multer()
 
 const app = express()
 app.use(cors())
@@ -34,6 +28,7 @@ app.get('/', async (req, res) => {
 
 app.post('/', upload.single('photo'), (req, res) => {
   res.status(202).send('Accepted')
+  resize.resize(req.file.buffer)
 })
 
 app.listen(port, () => {
