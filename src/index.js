@@ -17,8 +17,8 @@ axios.defaults.baseURL = `https://api.telegram.org/bot${process.env.BOT_TOKEN}`
 
 app.get('/', async (req, res) => {
   try {
-    const response = await axios.get('/getMe')
-    res.status(200).send('Ok')
+    const response = await axios.get('/getUpdates')
+    res.status(200).send(response.data)
     console.log(response.data)
   } catch (err) {
     console.log(err)
@@ -29,6 +29,20 @@ app.get('/', async (req, res) => {
 app.post('/', upload.single('photo'), (req, res) => {
   res.status(202).send('Accepted')
   resize.resize(req.file.buffer)
+})
+
+app.get('/stickers/:name', async (req, res) => {
+  try {
+    const response = await axios.get(`/getStickerset?name=${req.params.name}`)
+    res.status(200).send(response.data)
+  } catch (err) {
+    console.log(err)
+    res.status(500).send('Oops, something went wrong')
+  }
+})
+
+app.post('/stickers', (req, res) => {
+
 })
 
 app.listen(port, () => {
