@@ -41,7 +41,7 @@ app.get('/stickers/:name', async (req, res) => {
   }
 })
 
-app.post('/stickers', (req, res) => {
+app.post('/stickers/:name', (req, res) => {
 
 })
 
