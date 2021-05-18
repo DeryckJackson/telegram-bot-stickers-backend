@@ -1,13 +1,14 @@
 require('dotenv').config()
 const fs = require('fs')
+const fsPromise = require('fs/promises')
 
+const FormData = require('form-data')
 const express = require('express')
 const cors = require('cors')
 const multer = require('multer')
 
 const axios = require('axios')
 const resize = require('./image-resize.js')
-const { dir } = require('console')
 
 const upload = multer()
 
@@ -22,58 +23,43 @@ app.get('/', async (req, res) => {
   try {
     const response = await axios.get('/getUpdates')
     res.status(200).send(response.data)
-    console.log(response.data)
   } catch (err) {
-    console.log(err)
+    console.error(err)
     res.status(500).send('Oops, something went wrong')
   }
 });
 
-app.post('/', upload.single('photo'), (req, res) => {
-  res.status(202).send('Accepted')
-  resize.resize(req.file.buffer)
-})
+app.post('/stickers', upload.single('photo'), async (req, res) => {
+  let tmpDir
 
-app.get('/stickers/:name', async (req, res) => {
   try {
-    const response = await axios.get(`/getStickerset?name=${req.params.name}`)
-    res.status(200).send(response.data)
+    tmpDir = await fsPromise.mkdtemp('./tmp/')
+    await resize.resize(tmpDir, req.file.buffer)
+
+    const user_id = process.env.USER_ID
+    const name = res.body.name
+    const emojis = res.body.emojis
+
+    let formData = new FormData()
+
+    formData.append('user_id', user_id)
+    formData.append('name', name)
+    formData.append('png_sticker', fs.createReadStream(`${tmpDir}/temp.png`))
+    formData.append('emojis', emojis)
+
+    const response = await axios.post(`/addStickerToSet`, formData, {
+      headers: formData.getHeaders()
+    })
+
+    res.status(202).send(response.data)
   } catch (err) {
-    console.log(err)
-    res.status(500).send('Oops, something went wrong')
+    console.error(err)
+    res.status(500).send('Oops, something went wrong.')
   }
-})
 
-app.post('/stickers/:name/:emojis', upload.single('photo') , (req, res) => {
-  
-
-  const userId = process.env.USER_ID
-  const name = req.params.name
-  const emojis = req.params.emojis
-
-  const tmpDir = fs.mkdtemp('foo-', (err, directory) => {
+  fs.rm(tmpDir, { recursive: true, force: true }, (err) => {
     if (err) throw err
-    
-    resize.resize(directory, req.file.buffer)
-    
-    return directory
   })
-
-  console.log(tmpDir)
-
-  // fs.rmdir(directory, (err) => {
-  //   if (err) throw err
-  // })
-
-  // try {
-  //   const response = await axios.post(`/addStickerToSet?name=${name}&user_id=${userId}emojis=${emojis}`, formData)
-
-
-  // } catch (err) {
-  //   console.log(err)
-  // }
-
-  res.status(202).send('Accepted')
 })
 
 app.listen(port, () => {

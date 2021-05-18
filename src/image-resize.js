@@ -5,11 +5,11 @@ exports.resize = (tmpDir, file) => {
   const metadata = image.metadata()
 
   if (metadata.height > metadata.width) {
-    image
+    return image
       .resize({ height: 512 })
       .toFile(`./${tmpDir}/temp.png`)
   } else {
-    image
+    return image
       .resize({ width: 512 })
       .toFile(`./${tmpDir}/temp.png`)
   }
