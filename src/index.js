@@ -8,7 +8,7 @@ const cors = require('cors')
 const multer = require('multer')
 
 const axios = require('axios')
-const resize = require('./image-resize.js')
+const image = require('./image-resize.js')
 
 const upload = multer()
 
@@ -34,7 +34,7 @@ app.post('/pack', upload.single('photo'), async (req, res) => {
 
   try {
     tmpDir = await fsPromise.mkdtemp('./tmp/')
-    await resize.resize(tmpDir, req.file.buffer)
+    await image.resize(tmpDir, req.file.buffer)
 
     const user_id = process.env.USER_ID
     const name = req.body.name + '_by_pullups010_bot'
@@ -53,8 +53,6 @@ app.post('/pack', upload.single('photo'), async (req, res) => {
       headers: formData.getHeaders()
     })
 
-    console.log(response.data)
-
     res.status(202).send(response.data)
   } catch (err) {
     console.error(err)
@@ -71,7 +69,7 @@ app.post('/stickers', upload.single('photo'), async (req, res) => {
 
   try {
     tmpDir = await fsPromise.mkdtemp('./tmp/')
-    await resize.resize(tmpDir, req.file.buffer)
+    await image.resize(tmpDir, req.file.buffer)
 
     const user_id = process.env.USER_ID
     const name = req.body.name + '_by_pullups010_bot'
