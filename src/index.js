@@ -15,7 +15,7 @@ const upload = multer()
 const app = express()
 
 app.use(cors())
-const port = 3000
+const PORT = process.env.PORT || 3000
 
 axios.defaults.baseURL = `https://api.telegram.org/bot${process.env.BOT_TOKEN}`
 
@@ -97,6 +97,6 @@ app.post('/stickers', upload.single('photo'), async (req, res) => {
   })
 })
 
-app.listen(port, () => {
-  console.log(`Telegram bot app listening at http://localhost:${port}`)
+app.listen(PORT, () => {
+  console.log(`Telegram bot app listening at http://localhost:${PORT}`)
 });
