@@ -77,7 +77,7 @@ app.post('/stickers', upload.single('photo'), async (req, res) => {
 
     res.status(202).send(response.data)
   } catch (err) {
-    console.log(err)
+    console.error(err)
     res.status(500).send('Oops, something went wrong.')
   }
 })
