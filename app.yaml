@@ -1,3 +1,4 @@
 runtime: nodejs14
-includes:
-  - env-vars.yaml
+env_variables:
+  BOT_TOKEN: ${{ secret.BOT_TOKEN }}
+  USER_ID: ${{ secret.USER_ID }}
