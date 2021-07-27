@@ -2,3 +2,4 @@ runtime: nodejs14
 env_variables:
   BOT_TOKEN: ${{ secret.BOT_TOKEN }}
   USER_ID: ${{ secret.USER_ID }}
+  ORIGIN_URL: ${{ secret.ORIGIN_URL }}

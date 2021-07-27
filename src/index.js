@@ -1,7 +1,4 @@
 require('dotenv').config()
-const fs = require('fs')
-const fsPromise = require('fs/promises')
-
 const FormData = require('form-data')
 const express = require('express')
 const cors = require('cors')
@@ -14,8 +11,13 @@ const upload = multer()
 
 const app = express()
 
-app.use(cors())
-const PORT = process.env.PORT || 3000
+const corsOptions = {
+  origin: process.env.ORIGIN_URL || 'http://localhost:8080',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+app.use(cors(corsOptions))
+const port = process.env.PORT || 3000
 
 axios.defaults.baseURL = `https://api.telegram.org/bot${process.env.BOT_TOKEN}`
 
@@ -82,6 +84,6 @@ app.post('/stickers', upload.single('photo'), async (req, res) => {
   }
 })
 
-app.listen(PORT, () => {
-  console.log(`Telegram bot app listening at ${PORT}`)
+app.listen(port, () => {
+  console.log(`Telegram bot app listening at ${port}`)
 });
