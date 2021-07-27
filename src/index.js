@@ -12,7 +12,7 @@ const upload = multer()
 const app = express()
 
 const corsOptions = {
-  origin: process.env.ORIGIN_URL || 'http://localhost:8080',
+  origin: new RegExp(process.env.ORIGIN_URL) || 'http://localhost:8080',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
