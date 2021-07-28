@@ -26,9 +26,9 @@ jobs:
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1
         with:
-          envkey_BOT_TOKEN: ${{ secret.BOT_TOKEN }}
-          envkey_USER_ID: ${{ secret.USER_ID }}
-          envkey_ORIGIN_URL: ${{ secret.ORIGIN_URL }}
+          envkey_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          envkey_USER_ID: ${{ secrets.USER_ID }}
+          envkey_ORIGIN_URL: ${{ secrets.ORIGIN_URL }}
           directory: ./
           file_name: .env
 
