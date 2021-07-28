@@ -23,15 +23,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Make envfile
-        uses: SpicyPizza/create-envfile@v1
-        with:
-          envkey_BOT_TOKEN: ${{ secret.BOT_TOKEN }}
-          envkey_USER_ID: ${{ secret.USER_ID }}
-          envkey_ORIGIN_URL: ${{ secret.ORIGIN_URL }}
-          directory: ./
-          file_name: .env
-
       # Runs a single command using the runners shell
       - name: Deploy to App Engine
         uses: google-github-actions/deploy-appengine@v0.4.0
