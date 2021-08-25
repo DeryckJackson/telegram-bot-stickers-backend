@@ -18,3 +18,5 @@ app.use('/', indexRouter)
 app.listen(port, () => {
   console.log(`Telegram bot app listening at ${port}`)
 });
+
+module.exports = app

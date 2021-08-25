@@ -1,7 +1,7 @@
 const sharp = require('sharp');
 
 exports.resize = async (file) => {
-  const image = sharp(file)
+  const image = await sharp(file)
   const metadata = await image.metadata()
 
   if (metadata.height > metadata.width) {
