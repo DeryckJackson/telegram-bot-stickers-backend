@@ -4,9 +4,10 @@ const requestWithSupertest = supertest(server);
 const axios = require('axios')
 
 jest.mock('axios')
+jest.mock('../src/image-resize')
 
 describe('express routes', () => {
-  test('should make a request to / and return data', async () => {
+  test('should make a get request to / and return data', async () => {
     const response = {
       data: 'someData'
     }
@@ -18,7 +19,7 @@ describe('express routes', () => {
     expect(res.text).toEqual(response.data)
   })
 
-  test('should make a request to / and return error', async () => {
+  test('should make a get request to / and throw error', async () => {
     const err = {
       text: 'Error'
     }
